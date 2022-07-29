@@ -7,32 +7,63 @@ class GameSpace(object):
     """Represents a game space the player can land on"""
     def __init__(self, amount):
         self._space_amount = amount
+        self._space_name = ""
+        self._purchase_price = amount*5
 
     def get_rent_amount(self):
-        """returns amount that must be paid when non-owner player lands
-        on space
+        """
+        returns amount that must be paid when non-owner player lands
+        on space or the amount paid to player when passing GO
         """
         return self._space_amount
+
+    def get_purchase_price(self):
+        """returns purchase price"""
+        return self._purchase_price
+
+    def set_purchase_price(self, purchase_price):
+        """sets purchase price of item"""
+        self._purchase_price = purchase_price
+
+    # def get_name(self):
+    #     """returns name of space"""
+    #     return self._space_name
+    #
+    # def set_name(self, space_name):
+    #     """
+    #     sets name of game space
+    #     :param space_name:
+    #     :return:
+    #     """
+    #     self._space_name = space_name
 
 
 class RealEstateGame(object):
 
     # create_spaces - takes two parameters: the amount of money given to players when they
     #   land on or pass the "GO" space, and an array of 24 integers (rent amounts)
+    def __init__(self):
+        self._spaces_dict = {}
     def create_spaces(self, pass_go_amount, rent_amounts_array):
         """
         Creates game spaces and assigns rent to space
-        :param money_given:
-        :param rent_amounts:
+        :param pass_go_amount:
+        :param rent_amounts_array:
         :return: None
         """
         # Creates a space named "GO". This space cannot be purchased by any player
-        # go_space =
+        self._spaces_dict['space_go'] = GameSpace(pass_go_amount)
+        self._spaces_dict['space_go'].set_purchase_price(None)  # sets go_space purchase price to None
+        print(self._spaces_dict['space_go'].get_purchase_price())
+
         # Creates exactly 24 more game spaces (for a total of 25):
             # Spaces must not have duplicate names
             # Spaces will have rent amounts initialized from the array of 24 rent values.
             # Each space will have a purchase price equal to 5 times the rent amount
 
+        for i in range(24):
+            self._spaces_dict['space_' + str(i+1)] = GameSpace(rent_amounts_array[i])
+        print(self._spaces_dict)
 
     # create_player - takes two parameters: a unique name and an initial account balance
         # Players always start at the "GO" Space
@@ -92,3 +123,5 @@ if __name__ == "__main__":
     # print(game.get_player_account_balance("Player 2"))
     #
     # print(game.check_game_over())
+
+    # JESSIE TEST CODE
