@@ -4,25 +4,46 @@
 # Description:
 
 class GameSpace(object):
-    """Represents a game space the player can land on"""
-    def __init__(self, amount):
-        self._space_amount = amount
+    """
+    A class to represents a game space the player can land on.
+    Used by RealEstateGame class.
+    """
+    def __init__(self, _space_amount):
+        """
+        The constructor for GameSpace class.
+        Initializes the required data members.
+        All data members are private.
+        :param _space_amount:
+        """
+        self._space_amount = _space_amount
         self._space_name = ""
-        self._purchase_price = amount*5
+        self._purchase_price = _space_amount * 5
 
     def get_rent_amount(self):
         """
-        returns amount that must be paid when non-owner player lands
-        on space or the amount paid to player when passing GO
+        Returns rent _space_amount.
+        Used by RealEstateGame to get _space_amount (rent) that must be paid when
+        non-owner player lands on space or the _space_amount paid to player
+        when passing GO. _space_amount will be negative on go_space.
         """
         return self._space_amount
 
     def get_purchase_price(self):
-        """returns purchase price"""
+        """
+        Returns purchase price.
+        Used by RealEstateGame to get _space_amount that must be paid when
+        non-owner player wishes to purchase the space.
+        Default = rent _space_amount * 5
+        """
         return self._purchase_price
 
     def set_purchase_price(self, purchase_price):
-        """sets purchase price of item"""
+        """
+        Sets purchase price from default.
+        Used by RealEstateGame to set purchase price of GO to None.
+        :param purchase_price:
+        :return:
+        """
         self._purchase_price = purchase_price
 
     # def get_name(self):
@@ -40,13 +61,20 @@ class GameSpace(object):
 
 class RealEstateGame(object):
 
-    # create_spaces - takes two parameters: the amount of money given to players when they
-    #   land on or pass the "GO" space, and an array of 24 integers (rent amounts)
+    # create_spaces -
     def __init__(self):
+        """
+        The constructor for RealEstateGame class.
+        Initializes the required data members.
+        All data members are private.
+        """
         self._spaces_dict = {}
+
     def create_spaces(self, pass_go_amount, rent_amounts_array):
         """
-        Creates game spaces and assigns rent to space
+        Takes two parameters: the _space_amount of money given to players when they
+            land on or pass the "GO" space, and an array of 24 integers (rent amounts)
+        Purpose: Creates game spaces and assigns rent to space
         :param pass_go_amount:
         :param rent_amounts_array:
         :return: None
@@ -59,50 +87,80 @@ class RealEstateGame(object):
         # Creates exactly 24 more game spaces (for a total of 25):
             # Spaces must not have duplicate names
             # Spaces will have rent amounts initialized from the array of 24 rent values.
-            # Each space will have a purchase price equal to 5 times the rent amount
+            # Each space will have a purchase price equal to 5 times the rent _space_amount
 
         for i in range(24):
             self._spaces_dict['space_' + str(i+1)] = GameSpace(rent_amounts_array[i])
         print(self._spaces_dict)
 
-    # create_player - takes two parameters: a unique name and an initial account balance
-        # Players always start at the "GO" Space
 
-    # get_player_account_balance - takes as a parameter the name of the player and
-    #   returns the player's account balance
+    def create_player(self, player_name, player_account_balance):
+        """
+        Takes two parameters: a unique name and an initial account balance
+        Players always start at the "GO" Space
+        """
+        pass
 
-    # get_player_current_position - takes as a parameter the name of the player and
-    #   returns the player's current position on the board as an integer (where the "GO" space is position zero)
+    def get_player_account_balance(self, player_name):
+        """
+        Takes as a parameter the name of the player and
+        returns the player's account balance
+        :param player_name
+        :return: player_account_balance
+        """
+        pass
 
-    # buy_space - takes as parameters the name of the player
-        # If the player has an account balance greater than the purchase price,
-        #   and the space doesn't already have an owner:
-            # The purchase price of the space will be deducted from the player's account
-            # The player is set as the owner of the current space
-            # The method returns True
-        # Otherwise, the method returns False
 
-    # move_player - takes as parameters the name of the player, and the number of spaces to move
-        # If the player's account balance is 0, the method will return immediately without
-        #   doing anything
-        # The number of spaces to move will be an integer between 1 and 6
-        # The method will advance the player around the circular board by the number of spaces
-        # If the player lands on or passes "GO" while being moved, the player receives the
-        #   "GO" amount of money
-        # After the move is complete the player will pay rent for the new space occupied,
-        #   if necessary
-            # No rent will be paid if the player is occupying the "GO" space,
-            #   or if the space has no owner, or if the owner is the player
-            # Otherwise:
-                # The player must pay the rent for the space currently occupied
-                # The player will not pay more than the amount in player's account balance
-                # The amount paid is deducted from the players account and deposited into the game space owner's account
-                # If the player's new account balance is 0, the player has lost the game, and must be removed as the owner of any spaces.
+    def get_player_current_position(self, player_name):
+        """
+        Takes as a parameter the name of the player and returns the player's current position
+        on the board as an integer (where the "GO" space is position zero)
+        :param player_name:
+        :return: current_position
+        """
+        pass
 
-    # check_game_over - takes no parameters
-        # The game is over if all players but one have an account balance of 0
-        # If the game is over, the method returns the winning player's name
-        # Otherwise, the method returns an empty string
+
+    def buy_space(self, player_name):
+        """
+        Takes as parameters the name of the player
+        Purpose: When a player lands on a space, this method can be used to purchase the space
+        - If the player has an account balance greater than the purchase price, 
+            and the space doesn't already have an owner:
+            - The purchase price of the space will be deducted from the player's account
+            - The player is set as the owner of the current space
+            - The method returns True
+        - Otherwise, the method returns False
+        :param player_name: 
+        :return: True or False
+        """
+        pass
+        
+
+    def move_player(self, player_name, spaces_to_move):
+        """
+        Takes as parameters the name of the player, and the number of spaces to move
+        Purpose: To check a player's ability to advance spaces
+                 To advance the player around the circular board by the number of spaces (1-6 spaces).
+                 To charge player rent if necessary and to pay player for passing "GO"
+        :param player_name:
+        :param spaces_to_move:
+        :return:
+        """
+        pass
+
+
+    def check_game_over(self):
+        """
+        Takes no parameters.
+        Purpose: To check for and declare game winner.
+         - The game is over if all players but one have an account balance of 0
+         - If the game is over, the method returns the winning player's name
+         - Otherwise, the method returns an empty string
+        :return: winning_player_name
+        """
+        pass
+
 
 if __name__ == "__main__":
     game = RealEstateGame()
