@@ -1,9 +1,7 @@
 # Author: Jessica Allman-LaPorte
 # GitHub username: JessicaAllman-LaPorte
 # Date: 7/28/2022
-# Description:
-
-import random
+# Description: Program that allows two or more people to play a simplified version of the game Monopoly.
 
 
 class GameSpace(object):
@@ -11,6 +9,7 @@ class GameSpace(object):
     A class to represents a game space the player can land on.
     Used by RealEstateGame class.
     """
+
     def __init__(self, _space_amount):
         """
         The constructor for GameSpace class.
@@ -18,6 +17,7 @@ class GameSpace(object):
         All data members are private.
         :param _space_amount:
         """
+
         self._space_amount = _space_amount
         self._space_name = ""
         self._purchase_price = _space_amount * 5
@@ -30,6 +30,7 @@ class GameSpace(object):
         non-owner player lands on space or the _space_amount paid to player
         when passing GO. _space_amount will be negative on go_space.
         """
+
         return self._space_amount
 
     def get_purchase_price(self):
@@ -39,6 +40,7 @@ class GameSpace(object):
         non-owner player wishes to purchase the space.
         Default = rent _space_amount * 5
         """
+
         return self._purchase_price
 
     def set_purchase_price(self, purchase_price):
@@ -48,6 +50,7 @@ class GameSpace(object):
         :param purchase_price:
         :return:
         """
+
         self._purchase_price = purchase_price
 
     def set_space_owner(self, space_owner_name):
@@ -57,6 +60,7 @@ class GameSpace(object):
         :param space_owner_name:
         :return:
         """
+
         self._space_owner_name = space_owner_name
 
     def get_space_owner(self):
@@ -65,18 +69,26 @@ class GameSpace(object):
         Used by RealEstateGame class to get the space's owner.
         :return:
         """
+
         return self._space_owner_name
 
     def get_space_name(self):
-        """returns name of space"""
+        """
+        Get method for space name.
+        Used by RealEstateGame class to get the space's name.
+        :return: self._space_name
+        """
+
         return self._space_name
 
     def set_space_name(self, space_name):
         """
-        sets name of game space
+        Sets name of game space
+        Used by RealEstateGame class to set the space's name.
         :param space_name:
         :return:
         """
+
         self._space_name = space_name
 
 
@@ -88,6 +100,7 @@ class Player(object):
         Initializes the required data members.
         All data members are private.
         """
+
         self._player_name = player_name
         self._player_account_balance = player_account_balance
         self._player_position = 0
@@ -97,13 +110,16 @@ class Player(object):
         Used by RealEstateGame class to set player position.
         :return:
         """
+
         self._player_position = new_position
 
     def move_player_position(self, spaces_to_move):
         """
         Used by RealEstateGame class to move player position.
+        :param spaces_to_move
         :return:
         """
+
         self._player_position += spaces_to_move
 
     def get_player_position(self):
@@ -111,6 +127,7 @@ class Player(object):
         Used by RealEstateGame class to get player position.
         :return: _player_position
         """
+
         return self._player_position
 
     def get_player_account_balance(self):
@@ -118,6 +135,7 @@ class Player(object):
         Used by RealEstateGame class to get player account balance.
         :return: _player_account_balance
         """
+
         return self._player_account_balance
 
     def update_player_account_balance(self, amount_change):
@@ -125,6 +143,7 @@ class Player(object):
         Used by RealEstateGame class to update player account balance.
         :param amount_change:
         """
+
         self._player_account_balance += amount_change
 
 
@@ -136,6 +155,7 @@ class RealEstateGame(object):
         Initializes the required data members.
         All data members are private.
         """
+
         self._spaces_list = []
         self._player_dict = {}
 
@@ -148,6 +168,7 @@ class RealEstateGame(object):
         :param rent_amounts_array:
         :return: None
         """
+
         # Creates a space named "GO". This space cannot be purchased by any player
         self._spaces_list.append(GameSpace(pass_go_amount))
         self._spaces_list[0].set_purchase_price(None)  # sets go_space purchase price to None
@@ -166,6 +187,7 @@ class RealEstateGame(object):
         :param player_name
         :param player_account_balance:
         """
+
         self._player_dict[player_name] = Player(player_name, player_account_balance)
 
     def get_player_account_balance(self, player_name):
@@ -174,6 +196,7 @@ class RealEstateGame(object):
         :param player_name
         :return: _player_account_balance
         """
+
         return self._player_dict[player_name].get_player_account_balance()
 
     def update_player_account_balance(self, player_name, amount_change):
@@ -184,6 +207,7 @@ class RealEstateGame(object):
         :param amount_change:
         :return:
         """
+
         self._player_dict[player_name].update_player_account_balance(amount_change)
 
     def get_player_current_position(self, player_name):
@@ -193,6 +217,7 @@ class RealEstateGame(object):
         :param player_name:
         :return: current_position
         """
+
         return self._player_dict[player_name].get_player_position()
 
     def buy_space(self, player_name):
@@ -208,14 +233,15 @@ class RealEstateGame(object):
         :param player_name: 
         :return: True or False
         """
+
         player_account_balance = self.get_player_account_balance(player_name)
         player_current_position = self.get_player_current_position(player_name)
         space_purchase_price = self._spaces_list[player_current_position].get_purchase_price()
         space_owner_name = self._spaces_list[player_current_position].get_space_owner()
 
         # TEST CODE:
-        print(player_name, "account_balance:", player_account_balance)
-        print("space purchase price:", space_purchase_price)
+        # print(player_name, "account_balance:", player_account_balance)
+        # print("space purchase price:", space_purchase_price)
 
         # If player tries to purchase "GO" space, return False
         if space_purchase_price is None:
@@ -237,14 +263,15 @@ class RealEstateGame(object):
             self._spaces_list[player_current_position].set_space_owner(player_name)
 
             # TEST CODE:
-            print("Sufficient funds, space purchased")
-            print("New account balance:", self.get_player_account_balance(player_name))
-            print()
+            # print("Sufficient funds, space purchased")
+            # print("New account balance:", self.get_player_account_balance(player_name))
+            # print()
+
             return True
 
         else:
             # TEST CODE:
-            print("Insufficient funds")
+            # print("Insufficient funds")
 
             return False
 
@@ -264,9 +291,9 @@ class RealEstateGame(object):
         pass_go_amount = self._spaces_list[0].get_rent_amount()
 
         # TEST CODE:
-        print(player_name, "account balance:", player_account_balance)
-        print(player_name, "current position:", player_current_position)
-        print("# of spaces to move:", spaces_to_move)
+        # print(player_name, "account balance:", player_account_balance)
+        # print(player_name, "current position:", player_current_position)
+        # print("# of spaces to move:", spaces_to_move)
 
         # If the player's account balance is 0, the method will return immediately without doing anything
         if player_account_balance == 0:
@@ -282,24 +309,29 @@ class RealEstateGame(object):
             self.update_player_account_balance(player_name, pass_go_amount)
 
         self._player_dict[player_name].set_player_position(player_current_position)
+
         # TEST CODE:
-        print("new position:", player_current_position, "\n")
+        # print("new position:", player_current_position, "\n")
 
         # After the move is complete the player will pay rent for the new space occupied, if necessary
         space_rent = self._spaces_list[player_current_position].get_rent_amount()
 
         # if the player is occupying the "GO" space, the space has no owner, or the owner is the player:
+
         #     No rent will be paid
         if player_current_position == 0:
             return
+
         elif self._spaces_list[player_current_position].get_space_owner() == "":
             print("new position purchase price: " + str(space_rent * 5))
             print()
             return
+
         elif self._spaces_list[player_current_position].get_space_owner() == player_name:
             print("Already owned by " + player_name)
             print()
             return
+
         # Otherwise:
         #   The player must pay the rent for the space currently occupied
         else:
@@ -318,7 +350,9 @@ class RealEstateGame(object):
         # If the player's new account balance is 0, the player has lost the game,
         #   and must be removed as the owner of any spaces
         if self.get_player_account_balance(player_name) == 0:
+
             for space in self._spaces_list:
+
                 if space.get_space_owner() == player_name:
                     space.set_space_owner("")
 
@@ -333,6 +367,7 @@ class RealEstateGame(object):
         """
         players_out = 0
         winner = ""
+
         # Check for players with account balance 0
         for player in self._player_dict:
             if self.get_player_account_balance(player) == 0:
@@ -342,6 +377,7 @@ class RealEstateGame(object):
 
         if players_out == len(self._player_dict)-1:
             return winner
+
         else:
             return ""
 
@@ -352,104 +388,17 @@ def main():
 
     rents = [50, 50, 50, 75, 75, 75, 100, 100, 100, 150, 150, 150, 200, 200, 200, 250, 250, 250, 300, 300, 300, 350,
              350, 350]
-    game.create_spaces(200, rents)
+    game.create_spaces(50, rents)
 
-    game.create_player("Jen", 2500)
-    game.create_player("Jess", 2500)
+    game.create_player("Player 1", 1000)
+    game.create_player("Player 2", 1000)
+    game.create_player("Player 3", 1000)
 
-    game.buy_space("Jen")
-    game.move_player("Jen", 6)
-    game.buy_space("Jen")
-
-    game.move_player("Jess", 5)
-    game.buy_space("Jess")
-
-    game.move_player("Jen", 2)
-    game.buy_space("Jen")
-
-    game.move_player("Jess", 6)
-    game.buy_space("Jess")
-
-    game.move_player("Jen", 3)
-    game.buy_space("Jen")
-    game.move_player("Jess", 4)
-
-    game.move_player("Jen", 2)
-    game.buy_space("Jen")
-
-    game.move_player("Jess", 2)
-
-    game.move_player("Jen", 6)
-    game.buy_space("Jen")
-    game.buy_space("Jen")
-
-    game.move_player("Jess", 3)
-
-    game.move_player("Jen", 4)
-    game.move_player("Jess", 5)
-
-    game.move_player("Jen", 2)
-
-    game.move_player("Jess", 1)
-    game.buy_space("Jess")
-
-    game.move_player("Jen", 6)
-    game.move_player("Jess", 4)
-
-    game.move_player("Jen", 2)
-
-    game.move_player("Jess", 2)
-    game.buy_space("Jess")
-
-    game.move_player("Jen", 3)
-    game.move_player("Jess", 2)
-
-    game.move_player("Jen", 5)
-    game.move_player("Jess", 2)
-
-    game.move_player("Jen", 2)
-    game.move_player("Jess", 1)
-
-    game.move_player("Jen", 6)
-    game.move_player("Jess", 1)
-
-    game.move_player("Jen", 2)
-    game.move_player("Jess", 4)
-
-    game.move_player("Jen", 5)
-    game.move_player("Jess", 6)
-
-    game.move_player("Jen", 1)
-    game.move_player("Jess", 2)
-
-    game.move_player("Jen", 4)
-    game.move_player("Jess", 5)
-
-    game.move_player("Jen", 6)
-    game.move_player("Jess", 1)
-
-    game.move_player("Jen", 2)
-    game.move_player("Jess", 1)
-
-    game.move_player("Jen", 6)
-    game.move_player("Jess", 2)
-    game.buy_space("Jess")
-
-    game.move_player("Jen", 4)
-    game.buy_space("Jen")
-
-    game.move_player("Jess", 3)
-
-    game.move_player("Jen", 6)
-    game.move_player("Jess", 6)
-    for space in game._spaces_list:
-        print(space._space_name + space.get_space_owner())
-
-    print("Jen account balance:", game.get_player_account_balance("Jen"))
-    print("Jess account balance:", game.get_player_account_balance("Jess"))
+    game.move_player("Player 1", 6)
+    game.buy_space("Player 1")
+    game.move_player("Player 2", 6)
 
     print("Winner: " + game.check_game_over())
-    print("Dice Roll:", random.randint(1, 6))
 
 
 if __name__ == "__main__":
